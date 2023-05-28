@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +32,6 @@ public class ReviewController {
 	@DeleteMapping("/delete")
 	public ResponseEntity<Review> deleteReview(@RequestBody Map<String, String> payload)
 	{	
-		System.out.println(payload.get("IdReview")+" "+payload.get("IdMovie"));
 		Review reviewDeleteReview = reviewService.deleteReview(payload.get("IdReview"),payload.get("IdMovie"));
 		
 		if (reviewDeleteReview == null)
@@ -39,5 +39,14 @@ public class ReviewController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Review>(reviewService.deleteReview(payload.get("IdReview"),payload.get("IdMovie")),HttpStatus.OK);
+	}
+	@PutMapping("/update/{idReview}")
+	public ResponseEntity<Review> UpdateReview(@PathVariable String idReview, @RequestBody Map<String, String> payload)
+	{
+		Review reviewUpdateReview = reviewService.updateReview(idReview,payload.get("body"));
+		if (reviewUpdateReview == null) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<Review>(reviewService.updateReview(idReview,payload.get("body")),HttpStatus.OK);  
 	}
 }

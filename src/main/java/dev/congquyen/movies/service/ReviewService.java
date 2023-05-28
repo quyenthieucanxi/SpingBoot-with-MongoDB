@@ -47,6 +47,18 @@ public class ReviewService {
 	        return null;
 	    }
 	}
+
+		public Review updateReview(String IdReview,String body) {
+			ObjectId idReview = new ObjectId(IdReview);
+			Optional<Review> reviewOptional = reviewRepository.findById(idReview);
+			if (reviewOptional.isPresent()) {
+				Review review = reviewOptional.get();
+				review.setBody(body);
+				reviewRepository.save(review);	
+		        return review;
+			}
+			return null;			
+		}
 	
 
 }
